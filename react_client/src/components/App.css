@@ -1,7 +1,34 @@
 .App {
-  text-align: center;
+  /* text-align: center; */
+ 
+
 }
 
+
+.header {
+
+  height: 5 vh;
+  
+
+}
+
+.chat-and-board {
+
+  display: flex;
+  flex-direction: row;
+
+}
+
+.board {
+  
+}
+
+.chat {
+
+}
+
+
+/* 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -35,4 +62,4 @@
   to {
     transform: rotate(360deg);
   }
-}
+} */

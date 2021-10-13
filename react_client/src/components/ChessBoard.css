@@ -1,0 +1,21 @@
+.chessboard {
+  border: 6px red dotted;
+  display: grid;
+  width: 48vw;
+  height: 48vw;
+  grid-template-columns: auto auto auto auto auto auto auto auto;
+}
+
+.square {
+
+}
+
+.black {
+  background-color:rgb(30, 71, 46)
+
+}
+
+.white {
+  background-color: rgb(203, 250, 190);
+
+}
