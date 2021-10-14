@@ -1,13 +1,18 @@
 .chessboard {
   border: 6px red dotted;
   display: grid;
-  width: 48vw;
-  height: 48vw;
+  /* width: 48vw; */
+  /* height: 48vw; */
   grid-template-columns: auto auto auto auto auto auto auto auto;
 }
 
 .square {
-
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  font-size: 4vw;
+  width: 6vw;
+  height: 6vw;
 }
 
 .black {

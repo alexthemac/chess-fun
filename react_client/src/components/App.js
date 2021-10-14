@@ -2,6 +2,7 @@ import './App.css';
 import React from "react";
 import Header from './Header';
 import ChessBoard from './ChessBoard';
+import TestPiece from './TestPiece';
 
 function App() {
   return (
