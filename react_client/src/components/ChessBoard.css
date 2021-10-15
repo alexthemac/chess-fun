@@ -15,9 +15,10 @@
   height: 6vw;
 }
 
-.square:hover{
+/* Uncomment to change tile color when hover over */
+/* .square:hover{
   background-color: gold;;
-}
+} */
 
 
 .black {

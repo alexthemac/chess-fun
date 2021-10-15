@@ -50,22 +50,56 @@ export default function ChessBoard() {
   /////---------- use setBoard with FEN notation -------------/////
   const [board, setBoard] = useState(initialState);
 
+  const [currentPiece, setCurrentPiece] = useState("");
+
   const handleDragStart = (e) => {
     //e.target.lastChild.data gives the piece value
-    console.log("I AM started dragging", e.target.lastChild.data);
+
+    //Grab the current piece and store it in currentPiece state
+    setCurrentPiece(e.target.lastChild.data);
+
+    
+    // console.log("I AM started dragging", e.target);
   }
 
   const handleDragEnd = (e) => {
     //e.target.lastChild.data gives the piece value
-    console.log("I AM ended dragging", e.target.lastChild.data);
+    // console.log("I AM ended dragging", e.target);
   }
 
-  const handleMouseEnter = (e) => {
-    //e.target.lastChild.data gives the piece value
-    console.log("I AM BEING entered", e.target);
+  const handleDragEnter = (e) => {
+    // e.stopPropagation();
+    // e.preventDefault();
+    // console.log("I AM BEING entered", e.target);
   }
 
+  //Required for handleDrop to function correctly
+  const handleDragOver = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+  }
 
+  //Returns the div square for where the piece was dropped
+  const handleDrop = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    console.log("I have been dropped here:", e.target.id);
+
+    //Grab index of square that the piece is dropped on
+    const squareIndex = e.target.id;
+
+    let newStateArray = {...board};
+
+    newStateArray[squareIndex] = currentPiece;
+
+    console.log(newStateArray);
+
+
+    // setBoard(newStateArray);
+
+
+  }
 
 
 
@@ -75,15 +109,15 @@ export default function ChessBoard() {
     //Alternate colors based on rank
     if (i < 8 || (i > 15 && i < 24) || (i > 31 && i < 40) || (i > 47 && i < 56)) {
       if (i % 2 === 0 ) {
-        return <div className="square white" onMouseEnter={handleMouseEnter} ><span className="piece" draggable onDragStart={handleDragStart} onDragEnd={handleDragEnd}>{piece}</span></div>
+        return <div key={i} id={i} className="square white" onDragEnter={handleDragEnter} onDragOver={handleDragOver} onDrop={handleDrop}><span className="piece" draggable onDragStart={handleDragStart} onDragEnd={handleDragEnd}>{piece}</span></div>
       } else {
-        return <div className="square black" onMouseEnter={handleMouseEnter} ><span className="piece" draggable onDragStart={handleDragStart} onDragEnd={handleDragEnd}>{piece}</span></div>
+        return <div key={i} id={i} className="square black" onDragEnter={handleDragEnter} onDragOver={handleDragOver} onDrop={handleDrop}><span className="piece" draggable onDragStart={handleDragStart} onDragEnd={handleDragEnd}>{piece}</span></div>
       };
     } else {
       if (i % 2 === 0 ) {
-        return <div className="square black" onMouseEnter={handleMouseEnter} ><span className="piece" draggable onDragStart={handleDragStart} onDragEnd={handleDragEnd}>{piece}</span></div>
+        return <div key={i} id={i} className="square black" onDragEnter={handleDragEnter} onDragOver={handleDragOver} onDrop={handleDrop}><span className="piece" draggable onDragStart={handleDragStart} onDragEnd={handleDragEnd}>{piece}</span></div>
       } else {
-        return <div className="square white" onMouseEnter={handleMouseEnter} ><span className="piece" draggable onDragStart={handleDragStart} onDragEnd={handleDragEnd}>{piece}</span></div>
+        return <div key={i} id={i} className="square white" onDragEnter={handleDragEnter} onDragOver={handleDragOver} onDrop={handleDrop}><span className="piece" draggable onDragStart={handleDragStart} onDragEnd={handleDragEnd}>{piece}</span></div>
       };
     };
   })
