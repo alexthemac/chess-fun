@@ -57,9 +57,7 @@ export default function ChessBoard() {
 
     //Grab the current piece and store it in currentPiece state
     setCurrentPiece(e.target.lastChild.data);
-
     
-    // console.log("I AM started dragging", e.target);
   }
 
   const handleDragEnd = (e) => {
@@ -81,24 +79,19 @@ export default function ChessBoard() {
 
   //Returns the div square for where the piece was dropped
   const handleDrop = (e) => {
+
     e.stopPropagation();
     e.preventDefault();
-
-    console.log("I have been dropped here:", e.target.id);
 
     //Grab index of square that the piece is dropped on
     const squareIndex = e.target.id;
 
-    let newStateArray = {...board};
+    //Spread current board state
+    let newStateArray = [...board];
 
+    //Update board state with location of new piece
     newStateArray[squareIndex] = currentPiece;
-
-    console.log(newStateArray);
-
-
-    // setBoard(newStateArray);
-
-
+    setBoard(newStateArray);
   }
 
 
