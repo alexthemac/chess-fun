@@ -50,14 +50,19 @@ export default function ChessBoard() {
   /////---------- use setBoard with FEN notation -------------/////
   const [board, setBoard] = useState(initialState);
 
+  //For updating board with piece that is grabbed and moved
   const [currentPiece, setCurrentPiece] = useState("");
+
+  //For removing the piece from it's old square once it's dropped on new square
+  const [moveSquares, setMoveSquares] = useState([]);
 
   const handleDragStart = (e) => {
     //e.target.lastChild.data gives the piece value
 
     //Grab the current piece and store it in currentPiece state
     setCurrentPiece(e.target.lastChild.data);
-    
+    // console.log(e.dataTransfer);
+    console.log("EEEE", e);
   }
 
   const handleDragEnd = (e) => {
@@ -68,7 +73,12 @@ export default function ChessBoard() {
   const handleDragEnter = (e) => {
     // e.stopPropagation();
     // e.preventDefault();
-    // console.log("I AM BEING entered", e.target);
+
+    //Create an array that stores all the squares that have been hovered over by the piece
+    const newMoveSquares = [...moveSquares]
+    newMoveSquares.push(e.target.id);
+    setMoveSquares(newMoveSquares);
+
   }
 
   //Required for handleDrop to function correctly
@@ -91,10 +101,14 @@ export default function ChessBoard() {
 
     //Update board state with location of new piece
     newStateArray[squareIndex] = currentPiece;
+    newStateArray[moveSquares[1]] = "";
     setBoard(newStateArray);
+
+    //Reset the move array state after board has been updated
+    setMoveSquares([]);
+
+
   }
-
-
 
   //Add white or black squares to the board
   let chessSquares = board.map((piece, i) => {
