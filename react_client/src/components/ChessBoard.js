@@ -36,6 +36,11 @@ export default function ChessBoard() {
     bp: "♟"
   };
 
+  const pieceMovement = {
+    wp: [8, 16],
+    bp: [-8, -16]
+  }
+
   const initialState = [
     pieces.wr, pieces.wn, pieces.wb, pieces.wq, pieces.wk, pieces.wb, pieces.wn, pieces.wr,
     pieces.wp, pieces.wp, pieces.wp, pieces.wp, pieces.wp, pieces.wp, pieces.wp, pieces.wp,
@@ -56,11 +61,23 @@ export default function ChessBoard() {
   //For removing the piece from it's old square once it's dropped on new square
   const [moveSquares, setMoveSquares] = useState([]);
 
+  const [possibleMoves, setPossibleMoves] = useState([]);
+
   const handleDragStart = (e) => {
     //e.target.lastChild.data gives the piece value
 
     //Grab the current piece and store it in currentPiece state
     setCurrentPiece(e.target.lastChild.data);
+
+    //Get the current index of the grabbed piece
+    const pieceIndex = board.indexOf(currentPiece);
+
+    //Set the current grabbed piece potential moves to highlighted
+    console.log(pieceIndex);
+
+    // set
+
+    
     // console.log(e.dataTransfer);
     console.log("EEEE", e);
   }
