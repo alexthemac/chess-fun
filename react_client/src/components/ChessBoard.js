@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./ChessBoard.css";
 var classNames = require('classnames');
 
@@ -19,10 +19,8 @@ export default function ChessBoard() {
   // ♞ KNIGHT
   // ♟ PAWN
 
- 
-
-  //Easier way to refer to the pieces in code. It's hard to read the unicode character as it's so small
-  const pieces = {
+  //Information for each piece on the board
+  const initialPiecesState = {
     wk1: {id: "wk1", image: "♔", currentBoardIndex: 0, potentialMoves: []}, 
     wq1: {id: "wq1", image: "♕", currentBoardIndex: 0, potentialMoves: []}, 
     wr1: {id: "wr1", image: "♖", currentBoardIndex: 0, potentialMoves: []}, 
@@ -57,30 +55,33 @@ export default function ChessBoard() {
     bp8: {id: "bp8", image: "♟", currentBoardIndex: 0, potentialMoves: []}
   };
 
-
-  // const pieceMovement = {
-  //   wp: [8, 16],
-  //   bp: [-8, -16]
-  // }
-
-  // const testArray = [pieces.bp1.image, pieces.bp2.image, pieces.bp3.image, pieces.bp4.image, pieces.bp5.image, pieces.bp6.image, pieces.bp7.image, pieces.bp8.image,
-  //   pieces.br1.image, pieces.bn1.image, pieces.bb1.image, pieces.bq1.image, pieces.bk1.image, pieces.bb2.image, pieces.bn2.image, pieces.br2.image];
-
-  // console.log("!!!!!!", testArray);
-
-  const initialState = [
-    pieces.wr1.image, pieces.wn1.image, pieces.wb1.image, pieces.wq1.image, pieces.wk1.image, pieces.wb2.image, pieces.wn2.image, pieces.wr2.image,
-    pieces.wp1.image, pieces.wp2.image, pieces.wp3.image, pieces.wp4.image, pieces.wp5.image, pieces.wp6.image, pieces.wp7.image, pieces.wp8.image,
+  const initialBoardState = [
+    initialPiecesState.wr1, initialPiecesState.wn1, initialPiecesState.wb1, initialPiecesState.wq1, initialPiecesState.wk1, initialPiecesState.wb2, initialPiecesState.wn2, initialPiecesState.wr2,
+    initialPiecesState.wp1, initialPiecesState.wp2, initialPiecesState.wp3, initialPiecesState.wp4, initialPiecesState.wp5, initialPiecesState.wp6, initialPiecesState.wp7, initialPiecesState.wp8,
     "","","","","","","","",
     "","","","","","","","",
     "","","","","","","","",
     "","","","","","","","",
-    pieces.bp1.image, pieces.bp2.image, pieces.bp3.image, pieces.bp4.image, pieces.bp5.image, pieces.bp6.image, pieces.bp7.image, pieces.bp8.image,
-    pieces.br1.image, pieces.bn1.image, pieces.bb1.image, pieces.bq1.image, pieces.bk1.image, pieces.bb2.image, pieces.bn2.image, pieces.br2.image
+    initialPiecesState.bp1, initialPiecesState.bp2, initialPiecesState.bp3, initialPiecesState.bp4, initialPiecesState.bp5, initialPiecesState.bp6, initialPiecesState.bp7, initialPiecesState.bp8,
+    initialPiecesState.br1, initialPiecesState.bn1, initialPiecesState.bb1, initialPiecesState.bq1, initialPiecesState.bk1, initialPiecesState.bb2, initialPiecesState.bn2, initialPiecesState.br2
   ];
 
+  //Update the initial position in the initialPiecesState to match initial board
+  initialBoardState.forEach((element, index) => {
+    if (element.id) {
+      initialPiecesState[element.id].currentBoardIndex = index;
+    }
+  });
+
+
   /////---------- use setBoard with FEN notation -------------/////
-  const [board, setBoard] = useState(initialState);
+  const [board, setBoard] = useState(initialBoardState);
+
+  const [pieces, setPieces] = useState(initialPiecesState);
+
+  console.log("BOARD!!!!", board);
+  console.log("PIECES!!!!", pieces);
+
 
   //For updating board with piece that is grabbed and moved
   const [currentPiece, setCurrentPiece] = useState("");
@@ -160,15 +161,15 @@ export default function ChessBoard() {
     //Alternate colors based on rank
     if (i < 8 || (i > 15 && i < 24) || (i > 31 && i < 40) || (i > 47 && i < 56)) {
       if (i % 2 === 0 ) {
-        return <div key={i} id={i} className="square white potential-move" onDragEnter={handleDragEnter} onDragOver={handleDragOver} onDrop={handleDrop}><span className="piece" draggable onDragStart={handleDragStart} onDragEnd={handleDragEnd}>{piece}</span></div>
+        return <div key={i} id={i} className="square white potential-move" onDragEnter={handleDragEnter} onDragOver={handleDragOver} onDrop={handleDrop}><span className="piece" draggable onDragStart={handleDragStart} onDragEnd={handleDragEnd}>{piece.image}</span></div>
       } else {
-        return <div key={i} id={i} className="square black" onDragEnter={handleDragEnter} onDragOver={handleDragOver} onDrop={handleDrop}><span className="piece" draggable onDragStart={handleDragStart} onDragEnd={handleDragEnd}>{piece}</span></div>
+        return <div key={i} id={i} className="square black" onDragEnter={handleDragEnter} onDragOver={handleDragOver} onDrop={handleDrop}><span className="piece" draggable onDragStart={handleDragStart} onDragEnd={handleDragEnd}>{piece.image}</span></div>
       };
     } else {
       if (i % 2 === 0 ) {
-        return <div key={i} id={i} className="square black" onDragEnter={handleDragEnter} onDragOver={handleDragOver} onDrop={handleDrop}><span className="piece" draggable onDragStart={handleDragStart} onDragEnd={handleDragEnd}>{piece}</span></div>
+        return <div key={i} id={i} className="square black" onDragEnter={handleDragEnter} onDragOver={handleDragOver} onDrop={handleDrop}><span className="piece" draggable onDragStart={handleDragStart} onDragEnd={handleDragEnd}>{piece.image}</span></div>
       } else {
-        return <div key={i} id={i} className="square white" onDragEnter={handleDragEnter} onDragOver={handleDragOver} onDrop={handleDrop}><span className="piece" draggable onDragStart={handleDragStart} onDragEnd={handleDragEnd}>{piece}</span></div>
+        return <div key={i} id={i} className="square white" onDragEnter={handleDragEnter} onDragOver={handleDragOver} onDrop={handleDrop}><span className="piece" draggable onDragStart={handleDragStart} onDragEnd={handleDragEnd}>{piece.image}</span></div>
       };
     };
   })
