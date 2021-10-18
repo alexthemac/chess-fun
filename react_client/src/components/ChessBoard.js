@@ -19,7 +19,19 @@ export default function ChessBoard() {
   // ♞ KNIGHT
   // ♟ PAWN
 
-  //Information for each piece on the board
+
+  const potentialMoves = {
+    k: [],
+    q: [],
+    r: [],
+    b: [7, 14, 21, 28, 35, 42, 49, 56, 63, 9, 18, 27, 36, 45, 54, 63 ],
+    wp: [8, 16],
+    bp: [-8, -18]
+  }
+
+
+
+  //Information for each piece on the board (currentBoardIndex updated below)
   const initialPiecesState = {
     wk1: {id: "wk1", image: "♔", currentBoardIndex: 0, potentialMoves: []}, 
     wq1: {id: "wq1", image: "♕", currentBoardIndex: 0, potentialMoves: []}, 
@@ -56,17 +68,17 @@ export default function ChessBoard() {
   };
 
   const initialBoardState = [
-    initialPiecesState.wr1, initialPiecesState.wn1, initialPiecesState.wb1, initialPiecesState.wq1, initialPiecesState.wk1, initialPiecesState.wb2, initialPiecesState.wn2, initialPiecesState.wr2,
-    initialPiecesState.wp1, initialPiecesState.wp2, initialPiecesState.wp3, initialPiecesState.wp4, initialPiecesState.wp5, initialPiecesState.wp6, initialPiecesState.wp7, initialPiecesState.wp8,
-    "","","","","","","","",
-    "","","","","","","","",
-    "","","","","","","","",
-    "","","","","","","","",
+    initialPiecesState.br1, initialPiecesState.bn1, initialPiecesState.bb1, initialPiecesState.bq1, initialPiecesState.bk1, initialPiecesState.bb2, initialPiecesState.bn2, initialPiecesState.br2,
     initialPiecesState.bp1, initialPiecesState.bp2, initialPiecesState.bp3, initialPiecesState.bp4, initialPiecesState.bp5, initialPiecesState.bp6, initialPiecesState.bp7, initialPiecesState.bp8,
-    initialPiecesState.br1, initialPiecesState.bn1, initialPiecesState.bb1, initialPiecesState.bq1, initialPiecesState.bk1, initialPiecesState.bb2, initialPiecesState.bn2, initialPiecesState.br2
+    "","","","","","","","",
+    "","","","","","","","",
+    "","","","","","","","",
+    "","","","","","","","",
+    initialPiecesState.wp1, initialPiecesState.wp2, initialPiecesState.wp3, initialPiecesState.wp4, initialPiecesState.wp5, initialPiecesState.wp6, initialPiecesState.wp7, initialPiecesState.wp8,
+    initialPiecesState.wr1, initialPiecesState.wn1, initialPiecesState.wb1, initialPiecesState.wq1, initialPiecesState.wk1, initialPiecesState.wb2, initialPiecesState.wn2, initialPiecesState.wr2
   ];
 
-  //Update the initial position in the initialPiecesState to match initial board
+  //Update the initial position in the initialPiecesState to match initial board layout
   initialBoardState.forEach((element, index) => {
     if (element.id) {
       initialPiecesState[element.id].currentBoardIndex = index;
@@ -78,10 +90,6 @@ export default function ChessBoard() {
   const [board, setBoard] = useState(initialBoardState);
 
   const [pieces, setPieces] = useState(initialPiecesState);
-
-  console.log("BOARD!!!!", board);
-  console.log("PIECES!!!!", pieces);
-
 
   //For updating board with piece that is grabbed and moved
   const [currentPiece, setCurrentPiece] = useState("");
@@ -161,7 +169,7 @@ export default function ChessBoard() {
     //Alternate colors based on rank
     if (i < 8 || (i > 15 && i < 24) || (i > 31 && i < 40) || (i > 47 && i < 56)) {
       if (i % 2 === 0 ) {
-        return <div key={i} id={i} className="square white potential-move" onDragEnter={handleDragEnter} onDragOver={handleDragOver} onDrop={handleDrop}><span className="piece" draggable onDragStart={handleDragStart} onDragEnd={handleDragEnd}>{piece.image}</span></div>
+        return <div key={i} id={i} className="square white" onDragEnter={handleDragEnter} onDragOver={handleDragOver} onDrop={handleDrop}><span className="piece" draggable onDragStart={handleDragStart} onDragEnd={handleDragEnd}>{piece.image}</span></div>
       } else {
         return <div key={i} id={i} className="square black" onDragEnter={handleDragEnter} onDragOver={handleDragOver} onDrop={handleDrop}><span className="piece" draggable onDragStart={handleDragStart} onDragEnd={handleDragEnd}>{piece.image}</span></div>
       };
