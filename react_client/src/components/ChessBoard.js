@@ -23,34 +23,60 @@ export default function ChessBoard() {
 
   //Easier way to refer to the pieces in code. It's hard to read the unicode character as it's so small
   const pieces = {
-    wk: "♔",
-    wq: "♕",
-    wr: "♖",
-    wb: "♗",
-    wn: "♘",
-    wp: "♙",
-    bk: "♚",
-    bq: "♛",
-    br: "♜",
-    bb: "♝",
-    bn: "♞",
-    bp: "♟"
+    wk1: {id: "wk1", image: "♔", currentBoardIndex: 0, potentialMoves: []}, 
+    wq1: {id: "wq1", image: "♕", currentBoardIndex: 0, potentialMoves: []}, 
+    wr1: {id: "wr1", image: "♖", currentBoardIndex: 0, potentialMoves: []}, 
+    wr2: {id: "wr2", image: "♖", currentBoardIndex: 0, potentialMoves: []}, 
+    wb1: {id: "wb1", image: "♗", currentBoardIndex: 0, potentialMoves: []}, 
+    wb2: {id: "wb2", image: "♗", currentBoardIndex: 0, potentialMoves: []}, 
+    wn1: {id: "wn1", image: "♘", currentBoardIndex: 0, potentialMoves: []}, 
+    wn2: {id: "wn2", image: "♘", currentBoardIndex: 0, potentialMoves: []}, 
+    wp1: {id: "wp1", image: "♙", currentBoardIndex: 0, potentialMoves: []}, 
+    wp2: {id: "wp2", image: "♙", currentBoardIndex: 0, potentialMoves: []}, 
+    wp3: {id: "wp3", image: "♙", currentBoardIndex: 0, potentialMoves: []}, 
+    wp4: {id: "wp4", image: "♙", currentBoardIndex: 0, potentialMoves: []}, 
+    wp5: {id: "wp5", image: "♙", currentBoardIndex: 0, potentialMoves: []}, 
+    wp6: {id: "wp6", image: "♙", currentBoardIndex: 0, potentialMoves: []}, 
+    wp7: {id: "wp7", image: "♙", currentBoardIndex: 0, potentialMoves: []}, 
+    wp8: {id: "wp8", image: "♙", currentBoardIndex: 0, potentialMoves: []}, 
+    bk1: {id: "bk1", image: "♚", currentBoardIndex: 0, potentialMoves: []}, 
+    bq1: {id: "bq1", image: "♛", currentBoardIndex: 0, potentialMoves: []}, 
+    br1: {id: "br1", image: "♜", currentBoardIndex: 0, potentialMoves: []}, 
+    br2: {id: "br2", image: "♜", currentBoardIndex: 0, potentialMoves: []}, 
+    bb1: {id: "bb1", image: "♝", currentBoardIndex: 0, potentialMoves: []}, 
+    bb2: {id: "bb2", image: "♝", currentBoardIndex: 0, potentialMoves: []}, 
+    bn1: {id: "bn1", image: "♞", currentBoardIndex: 0, potentialMoves: []}, 
+    bn2: {id: "bn2", image: "♞", currentBoardIndex: 0, potentialMoves: []}, 
+    bp1: {id: "bp1", image: "♟", currentBoardIndex: 0, potentialMoves: []}, 
+    bp2: {id: "bp2", image: "♟", currentBoardIndex: 0, potentialMoves: []}, 
+    bp3: {id: "bp3", image: "♟", currentBoardIndex: 0, potentialMoves: []}, 
+    bp4: {id: "bp4", image: "♟", currentBoardIndex: 0, potentialMoves: []}, 
+    bp5: {id: "bp5", image: "♟", currentBoardIndex: 0, potentialMoves: []}, 
+    bp6: {id: "bp6", image: "♟", currentBoardIndex: 0, potentialMoves: []}, 
+    bp7: {id: "bp7", image: "♟", currentBoardIndex: 0, potentialMoves: []}, 
+    bp8: {id: "bp8", image: "♟", currentBoardIndex: 0, potentialMoves: []}
   };
 
-  const pieceMovement = {
-    wp: [8, 16],
-    bp: [-8, -16]
-  }
+
+  // const pieceMovement = {
+  //   wp: [8, 16],
+  //   bp: [-8, -16]
+  // }
+
+  // const testArray = [pieces.bp1.image, pieces.bp2.image, pieces.bp3.image, pieces.bp4.image, pieces.bp5.image, pieces.bp6.image, pieces.bp7.image, pieces.bp8.image,
+  //   pieces.br1.image, pieces.bn1.image, pieces.bb1.image, pieces.bq1.image, pieces.bk1.image, pieces.bb2.image, pieces.bn2.image, pieces.br2.image];
+
+  // console.log("!!!!!!", testArray);
 
   const initialState = [
-    pieces.wr, pieces.wn, pieces.wb, pieces.wq, pieces.wk, pieces.wb, pieces.wn, pieces.wr,
-    pieces.wp, pieces.wp, pieces.wp, pieces.wp, pieces.wp, pieces.wp, pieces.wp, pieces.wp,
+    pieces.wr1.image, pieces.wn1.image, pieces.wb1.image, pieces.wq1.image, pieces.wk1.image, pieces.wb2.image, pieces.wn2.image, pieces.wr2.image,
+    pieces.wp1.image, pieces.wp2.image, pieces.wp3.image, pieces.wp4.image, pieces.wp5.image, pieces.wp6.image, pieces.wp7.image, pieces.wp8.image,
     "","","","","","","","",
     "","","","","","","","",
     "","","","","","","","",
     "","","","","","","","",
-    pieces.bp, pieces.bp, pieces.bp, pieces.bp, pieces.bp, pieces.bp, pieces.bp, pieces.bp,
-    pieces.br, pieces.bn, pieces.bb, pieces.bq, pieces.bk, pieces.bb, pieces.bn, pieces.br
+    pieces.bp1.image, pieces.bp2.image, pieces.bp3.image, pieces.bp4.image, pieces.bp5.image, pieces.bp6.image, pieces.bp7.image, pieces.bp8.image,
+    pieces.br1.image, pieces.bn1.image, pieces.bb1.image, pieces.bq1.image, pieces.bk1.image, pieces.bb2.image, pieces.bn2.image, pieces.br2.image
   ];
 
   /////---------- use setBoard with FEN notation -------------/////
