@@ -20,14 +20,15 @@ export default function ChessBoard() {
   // ♟ PAWN
 
 
-  const potentialMoves = {
+  //Relative to current position. Need to add currentBoardIndex to these. 
+  const potentialMovesObject = {
     k: [],
     q: [],
     r: [],
     b: [7, 14, 21, 28, 35, 42, 49, 56, 63, 9, 18, 27, 36, 45, 54, 63],
-    // n: []
-    wp: [8, 16],
-    bp: [-8, -18]
+    n: [],
+    wp: [-8, -16],
+    bp: [8, 16]
   }
 
 
@@ -80,14 +81,50 @@ export default function ChessBoard() {
   ];
 
   //Update the initial position in the initialPiecesState to match initial board layout
+  //Also update the potential moves for each piece
   initialBoardState.forEach((element, index) => {
     if (element.id) {
+
+      //Set the currentBoardIndex for that piece
       initialPiecesState[element.id].currentBoardIndex = index;
+
+      let pieceType = "";
+
+      //Grab the first letter of all pieces except pawns (pawns have specific moves depending on color)
+      if(element.id[1] !== 'p') {
+        pieceType = element.id.slice(1,2);
+      } else {
+        pieceType = element.id.slice(0,2);
+      };
+
+      //Get the potential moves for that piece type
+      const currentPieceTypeMoves = potentialMovesObject[pieceType];
+
+      console.log("currentPieceTypeMoves", currentPieceTypeMoves);
+
+      //Add the current pieces index to the potential moves
+      currentPieceTypeMoves.forEach( (element2, index) => {
+
+        currentPieceTypeMoves[index] = element2 + element.currentBoardIndex;
+       
+      })
+
+      console.log("currentPieceTypeMoves POST ADD Index", currentPieceTypeMoves);
+
+
+      // console.log(currentPieceTypeMoves);
+
+      // console.log("TYPE:", pieceType, "MOVES:", currentPieceTypeMoves);
+
+      //Look up potentialMovesObject array
+      //For each element in the array, 
+
+
+      // initialPiecesState[element.id].potentialMoves.push(
+      //   potential
+      // )
     }
   });
-
-
-
 
   /////---------- use setBoard with FEN notation -------------/////
   const [board, setBoard] = useState(initialBoardState);
