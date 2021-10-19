@@ -30,6 +30,12 @@
   background-color: rgb(203, 250, 190);
 }
 
+.colored {
+  /* background-color: gold; */
+  border:rgb(255, 0, 234) 4px dotted;
+
+}
+
 .potential-move {
   background-color: gold;;
 }
@@ -41,6 +47,6 @@
 }
 
 .piece {
-  color:red;
+  color:black;
   font-size:4vw;
 }
