@@ -104,11 +104,11 @@ export default function ChessBoard() {
 
       //Add the current pieces index to the potential moves
       currentPieceTypeMoves.forEach( (element2, index) => {
-
+    
         //Only add moves that are < 64 (64 squares on the board)
-        // if (element2 + element.currentBoardIndex < 64 )
-        currentPieceTypeMoves[index] = element2 + element.currentBoardIndex;
-       
+        if (element2 + element.currentBoardIndex < 64 ) {
+          currentPieceTypeMoves[index] = element2 + element.currentBoardIndex;
+        }
       })
 
       element.potentialMoves = currentPieceTypeMoves;
@@ -142,11 +142,13 @@ export default function ChessBoard() {
     
     possibleMoveArray = pieces[e.target.id].potentialMoves;
 
-    // possibleMoveArray = e
+    possibleMoveArray.forEach(element => {
+      document.getElementById(element).classList.add('colored');
+    })
+    
     
 
-    // //Get the current index of the grabbed piece
-    // const pieceIndex = pieces[e.target.id].currentBoardIndex
+
 
   }
 
@@ -192,13 +194,15 @@ export default function ChessBoard() {
     //Reset the move array state after board has been updated
     setMoveSquares([]);
 
+    
+
   }
 
-  let inMoveArray = true;
+  // let inMoveArray = true;
 
-  //Colors squares to show they are legal moves. Will color squares if they are in move array
-  let squareWhite = classNames( 'square white', { 'colored' : inMoveArray });
-  let squareBlack = classNames( 'square black', { 'colored' : inMoveArray });
+  // //Colors squares to show they are legal moves. Will color squares if they are in move array
+  // let squareWhite = classNames( 'square white', { 'colored' : inMoveArray });
+  // let squareBlack = classNames( 'square black', { 'colored' : inMoveArray });
 
 
 
@@ -208,15 +212,15 @@ export default function ChessBoard() {
     //Alternate colors based on rank
     if (i < 8 || (i > 15 && i < 24) || (i > 31 && i < 40) || (i > 47 && i < 56)) {
       if (i % 2 === 0 ) {
-        return <div key={i} id={i} className={squareWhite} onDragEnter={handleDragEnter} onDragOver={handleDragOver} onDrop={handleDrop}><span className="piece" id={piece.id} draggable onDragStart={handleDragStart} onDragEnd={handleDragEnd}>{piece.image}</span></div>
+        return <div key={i} id={i} className='square white' onDragEnter={handleDragEnter} onDragOver={handleDragOver} onDrop={handleDrop}><span className="piece" id={piece.id} draggable onDragStart={handleDragStart} onDragEnd={handleDragEnd}>{piece.image}</span></div>
       } else {
-        return <div key={i} id={i} className={squareBlack} onDragEnter={handleDragEnter} onDragOver={handleDragOver} onDrop={handleDrop}><span className="piece" id={piece.id} draggable onDragStart={handleDragStart} onDragEnd={handleDragEnd}>{piece.image}</span></div>
+        return <div key={i} id={i} className='square black' onDragEnter={handleDragEnter} onDragOver={handleDragOver} onDrop={handleDrop}><span className="piece" id={piece.id} draggable onDragStart={handleDragStart} onDragEnd={handleDragEnd}>{piece.image}</span></div>
       };
     } else {
       if (i % 2 === 0 ) {
-        return <div key={i} id={i} className={squareBlack} onDragEnter={handleDragEnter} onDragOver={handleDragOver} onDrop={handleDrop}><span className="piece" id={piece.id} draggable onDragStart={handleDragStart} onDragEnd={handleDragEnd}>{piece.image}</span></div>
+        return <div key={i} id={i} className='square black' onDragEnter={handleDragEnter} onDragOver={handleDragOver} onDrop={handleDrop}><span className="piece" id={piece.id} draggable onDragStart={handleDragStart} onDragEnd={handleDragEnd}>{piece.image}</span></div>
       } else {
-        return <div key={i} id={i} className={squareWhite} onDragEnter={handleDragEnter} onDragOver={handleDragOver} onDrop={handleDrop}><span className="piece" id={piece.id} draggable onDragStart={handleDragStart} onDragEnd={handleDragEnd}>{piece.image}</span></div>
+        return <div key={i} id={i} className='square white' onDragEnter={handleDragEnter} onDragOver={handleDragOver} onDrop={handleDrop}><span className="piece" id={piece.id} draggable onDragStart={handleDragStart} onDragEnd={handleDragEnd}>{piece.image}</span></div>
       };
     };
   })

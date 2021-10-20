@@ -31,8 +31,8 @@
 }
 
 .colored {
-  /* background-color: gold; */
-  border:rgb(255, 0, 234) 4px dotted;
+  background-color: gold;
+  /* border:rgb(255, 0, 234) 4px dotted; */
 
 }
 
