@@ -88,6 +88,8 @@ export default function ChessBoard() {
       //Set the currentBoardIndex for that piece
       initialPiecesState[element.id].currentBoardIndex = index;
 
+
+      //Rest of code in if statement to set the potential moves array for that piece
       let pieceType = "";
 
       //Grab the first letter of all pieces except pawns (pawns have specific moves depending on color)
@@ -97,32 +99,19 @@ export default function ChessBoard() {
         pieceType = element.id.slice(0,2);
       };
 
-      //Get the potential moves for that piece type
-      const currentPieceTypeMoves = potentialMovesObject[pieceType];
-
-      console.log("currentPieceTypeMoves", currentPieceTypeMoves);
+      //Get the potential moves (offset from current index) for that piece type
+      const currentPieceTypeMoves = [...potentialMovesObject[pieceType]];
 
       //Add the current pieces index to the potential moves
       currentPieceTypeMoves.forEach( (element2, index) => {
 
+        //Only add moves that are < 64 (64 squares on the board)
+        // if (element2 + element.currentBoardIndex < 64 )
         currentPieceTypeMoves[index] = element2 + element.currentBoardIndex;
        
       })
 
-      console.log("currentPieceTypeMoves POST ADD Index", currentPieceTypeMoves);
-
-
-      // console.log(currentPieceTypeMoves);
-
-      // console.log("TYPE:", pieceType, "MOVES:", currentPieceTypeMoves);
-
-      //Look up potentialMovesObject array
-      //For each element in the array, 
-
-
-      // initialPiecesState[element.id].potentialMoves.push(
-      //   potential
-      // )
+      element.potentialMoves = currentPieceTypeMoves;
     }
   });
 
