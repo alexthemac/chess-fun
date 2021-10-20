@@ -128,12 +128,21 @@ export default function ChessBoard() {
 
   const [possibleMoves, setPossibleMoves] = useState([]);
 
+  let possibleMoveArray = [];
+
   const handleDragStart = (e) => {
     //e.target.lastChild.data gives the piece value
 
     //Grab the current piece and store it in currentPiece state
     setCurrentPiece(pieces[e.target.id]);
 
+    //If id is in move array, set color to gold.
+
+    console.log("!!!!", pieces[e.target.id].potentialMoves);
+    
+    possibleMoveArray = pieces[e.target.id].potentialMoves;
+
+    // possibleMoveArray = e
     
 
     // //Get the current index of the grabbed piece
@@ -185,9 +194,7 @@ export default function ChessBoard() {
 
   }
 
-  //If id is in move array, set color to gold.
-
-  let inMoveArray = true; 
+  let inMoveArray = true;
 
   //Colors squares to show they are legal moves. Will color squares if they are in move array
   let squareWhite = classNames( 'square white', { 'colored' : inMoveArray });
