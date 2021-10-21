@@ -22,7 +22,7 @@ export default function ChessBoard() {
 
   //Relative to current position. Need to add currentBoardIndex to these. 
   const potentialMovesObject = {
-    k: [],
+    k: [-1, -7, -8, -9, 1, 7, 8, 9],
     q: [],
     r: [],
     b: [7, 14, 21, 28, 35, 42, 49, 56, 63, 9, 18, 27, 36, 45, 54, 63],
@@ -106,14 +106,15 @@ export default function ChessBoard() {
       currentPieceTypeMoves.forEach( (element2, index) => {
     
         //Only add moves that are < 64 (64 squares on the board)
-        if (element2 + element.currentBoardIndex < 64 ) {
+        if ((element2 + element.currentBoardIndex >= 0) && (element2 + element.currentBoardIndex < 64)) {
           currentPieceTypeMoves[index] = element2 + element.currentBoardIndex;
+          element.potentialMoves.push(currentPieceTypeMoves[index])
         }
       })
-
-      element.potentialMoves = currentPieceTypeMoves;
     }
   });
+
+  console.log(initialPiecesState);
 
   /////---------- use setBoard with FEN notation -------------/////
   const [board, setBoard] = useState(initialBoardState);
