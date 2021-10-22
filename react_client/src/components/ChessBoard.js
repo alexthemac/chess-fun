@@ -24,7 +24,7 @@ export default function ChessBoard() {
   const potentialMovesObject = {
     k: [-1, -7, -8, -9, 1, 7, 8, 9],
     q: [],
-    r: [],
+    r: [-7, -6, -5, -4, -3, -2, -1, 1, 2, 3, 4, 5, 6, 7,],
     b: [7, 14, 21, 28, 35, 42, 49, 56, 63, 9, 18, 27, 36, 45, 54, 63],
     n: [],
     wp: [-8, -16],
@@ -146,16 +146,20 @@ export default function ChessBoard() {
     possibleMoveArray.forEach(element => {
       document.getElementById(element).classList.add('colored');
     })
-    
-    
-
-
-
   }
 
   const handleDragEnd = (e) => {
     //e.target.lastChild.data gives the piece value
     // console.log("I AM ended dragging", e.target);
+
+    //To remove the colored squares after piece is dropped
+    const coloredSquaresArray = document.getElementsByClassName("colored")
+
+    //Array.from required to be able to modify the elements of an HTMLCollection (undefined error if not used)
+    Array.from(coloredSquaresArray).forEach((element) => {
+        element.classList.remove("colored");
+    });
+
   }
 
   const handleDragEnter = (e) => {
