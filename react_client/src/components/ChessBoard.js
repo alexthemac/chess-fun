@@ -122,15 +122,64 @@ export default function ChessBoard() {
     return moves;
   }
 
+  //REFACTOR THIS...Too long for how simple it is
+  const kingMoves = (currentPosition) => {
+
+    let moves = []; 
+
+    //Vertical moves
+    currentPosition[0] + 1 < 8 && moves.push([currentPosition[0] + 1, currentPosition[1]]);
+    currentPosition[0] - 1 > -1 && moves.push([currentPosition[0] - 1, currentPosition[1]]);
+
+    //Horizontal moves (row is not a good variable name as it's used for vertical and horizontal movement...)
+    currentPosition[1] + 1 < 8 && moves.push([currentPosition[0], currentPosition[1] + 1]);
+    currentPosition[1] - 1 > -1 && moves.push([currentPosition[0], currentPosition[1] - 1]);
+
+    //Diagonals (king<)
+    if (currentPosition[0] + 1 < 8 && currentPosition[1] + 1 < 8) {
+      moves.push([currentPosition[0] + 1, currentPosition[1] + 1]);
+    }
+    if (currentPosition[0] - 1 > -1 && currentPosition[1] + 1 < 8) {
+      moves.push([currentPosition[0] - 1, currentPosition[1] + 1]);
+    }
+    //Diagonals (>king)
+    if (currentPosition[0] + 1 < 8 && currentPosition[1] - 1 > -1) {
+      moves.push([currentPosition[0] + 1, currentPosition[1] - 1]);
+    }
+    if (currentPosition[0] - 1 > -1 && currentPosition[1] - 1 > -1) {
+      moves.push([currentPosition[0] - 1, currentPosition[1] - 1])
+    }
+    return moves;
+  }
+
+  const pawnMoves = (currentPosition, color) => {
+
+    let moves = [];
+
+    currentPosition[0] + 1 < 8 && moves.push([currentPosition[0] + 1, currentPosition[1]]);
+
+
+
+    
+
+
+    return moves;
+
+  }
+
+
+
+
+
    //Function called for whichever piece type it is
   const potentialMovesObject = {
-    k: queenMoves,
+    k: kingMoves,
     q: queenMoves,
     r: rookMoves,
     b: bishopMoves,
     n: queenMoves,
-    wp: queenMoves,
-    bp: queenMoves
+    wp: pawnMoves,
+    bp: pawnMoves
   }
 
   //Information for each piece on the board (currentBoardIndex and potentialMoves updated below)
