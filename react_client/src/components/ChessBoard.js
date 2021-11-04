@@ -20,18 +20,72 @@ export default function ChessBoard() {
   // ♟ PAWN
 
 
-  //Relative to current position. Need to add currentBoardIndex to these. 
-  const potentialMovesObject = {
-    k: [-1, -7, -8, -9, 1, 7, 8, 9],
-    q: [],
-    r: [-7, -6, -5, -4, -3, -2, -1, 1, 2, 3, 4, 5, 6, 7, ],
-    b: [7, 14, 21, 28, 35, 42, 49, 56, 63, 9, 18, 27, 36, 45, 54, 63],
-    n: [],
-    wp: [-8, -16],
-    bp: [8, 16]
+  // //Relative to current position. Need to add currentBoardIndex to these. 
+  // const potentialMovesObject = {
+  //   k: [-1, -7, -8, -9, 1, 7, 8, 9],
+  //   q: [],
+  //   r: [-7, -6, -5, -4, -3, -2, -1, 1, 2, 3, 4, 5, 6, 7, ],
+  //   b: [7, 14, 21, 28, 35, 42, 49, 56, 63, 9, 18, 27, 36, 45, 54, 63],
+  //   n: [],
+  //   wp: [-8, -16],
+  //   bp: [8, 16]
+  // }
+
+ 
+
+  //Function to set the current queens moves
+  const queenMoves = (currentPosition) => {
+
+    //Array to store all moves for the current piece
+    let moves = [];
+
+    for (let row = 1; row < 8; row++) {
+
+      //Vertical moves
+      currentPosition[0] + row < 8 && moves.push([currentPosition[0] + row, currentPosition[1]]);
+      currentPosition[0] - row > -1 && moves.push([currentPosition[0] - row, currentPosition[1]]);
+
+      //Horizontal moves (row is not a good variable name as it's used for vertical and horizontal movement...)
+      currentPosition[1] + row < 8 && moves.push([currentPosition[0], currentPosition[1] + row]);
+      currentPosition[1] - row > -1 && moves.push([currentPosition[0], currentPosition[1] - row]);
+
+      for (let column = 1; column < 8; column++) {
+
+        //Diagonals
+        if (row === column) {
+          //Diagonals (queen<)
+          if (currentPosition[0] + row < 8 && currentPosition[1] + column < 8) {
+            moves.push([currentPosition[0] + row, currentPosition[1] + column]);
+          }
+          if (currentPosition[0] - row > -1 && currentPosition[1] + column < 8) {
+            moves.push([currentPosition[0] - row, currentPosition[1] + column]);
+          }
+          //Diagonals (>queen)
+          if (currentPosition[0] + row < 8 && currentPosition[1] - column > -1) {
+            moves.push([currentPosition[0] + row, currentPosition[1] - column]);
+          }
+          if (currentPosition[0] - row > -1 && currentPosition[1] - column > -1) {
+            moves.push([currentPosition[0] - row, currentPosition[1] - column]);
+          }
+        }
+      }
+    }
+    return moves;
   }
 
+  console.log("QUEEN MOVES WHITE QUEEN:", queenMoves([7,3]));
 
+
+   //Function called for whichever piece type it is
+   const potentialMovesObject = {
+    k: queenMoves,
+    q: queenMoves,
+    r: queenMoves,
+    b: queenMoves,
+    n: queenMoves,
+    wp: queenMoves,
+    bp: queenMoves
+  }
 
   //Information for each piece on the board (currentBoardIndex updated below)
   const initialPiecesState = {
@@ -91,41 +145,91 @@ export default function ChessBoard() {
     [initialPiecesState.wr1, initialPiecesState.wn1, initialPiecesState.wb1, initialPiecesState.wq1, initialPiecesState.wk1, initialPiecesState.wb2, initialPiecesState.wn2, initialPiecesState.wr2]
   ];
 
+
+
+
+  // //Update the initial position in the initialPiecesState to match initial board layout
+  // //Also update the potential moves for each piece
+  // initialBoardState.forEach((element, index) => {
+  //   if (element.id) {
+
+  //     //Set the currentBoardIndex for that piece
+  //     initialPiecesState[element.id].currentBoardIndex = index;
+
+
+  //     //Rest of code in if statement to set the potential moves array for that piece
+  //     let pieceType = "";
+
+  //     //Grab the first letter of all pieces except pawns (pawns have specific moves depending on color)
+  //     if(element.id[1] !== 'p') {
+  //       pieceType = element.id.slice(1,2);
+  //     } else {
+  //       pieceType = element.id.slice(0,2);
+  //     };
+
+  //     //Get the potential moves (offset from current index) for that piece type
+  //     const currentPieceTypeMoves = [...potentialMovesObject[pieceType]];
+
+  //     //Add the current pieces index to the potential moves
+  //     currentPieceTypeMoves.forEach( (element2, index) => {
+    
+  //       //Only add moves that are < 64 (64 squares on the board)
+  //       if ((element2 + element.currentBoardIndex >= 0) && (element2 + element.currentBoardIndex < 64)) {
+  //         currentPieceTypeMoves[index] = element2 + element.currentBoardIndex;
+  //         element.potentialMoves.push(currentPieceTypeMoves[index])
+  //       }
+  //     })
+  //   }
+  // });
+
   //Update the initial position in the initialPiecesState to match initial board layout
   //Also update the potential moves for each piece
-  initialBoardState.forEach((element, index) => {
-    if (element.id) {
+  initialBoardState.forEach((row, rowIndex) => {
 
-      //Set the currentBoardIndex for that piece
-      initialPiecesState[element.id].currentBoardIndex = index;
+    row.forEach((element, elementIndex) => {
+      if (element.id) {
+        
+        //Set the currentBoardIndex for that piece (row, column)
+        initialPiecesState[element.id].currentBoardIndex = [rowIndex, elementIndex];
 
 
-      //Rest of code in if statement to set the potential moves array for that piece
-      let pieceType = "";
+        //Rest of code in if statement to set the potential moves array for that piece
+        let pieceType = "";
 
-      //Grab the first letter of all pieces except pawns (pawns have specific moves depending on color)
-      if(element.id[1] !== 'p') {
-        pieceType = element.id.slice(1,2);
-      } else {
-        pieceType = element.id.slice(0,2);
-      };
+        //Grab the first letter of all pieces except pawns (pawns have specific moves (can only move forward) depending on color)
+        if(element.id[1] !== 'p') {
+          pieceType = element.id.slice(1,2);
+        } else {
+          pieceType = element.id.slice(0,2);
+        };
 
-      //Get the potential moves (offset from current index) for that piece type
-      const currentPieceTypeMoves = [...potentialMovesObject[pieceType]];
+        console.log("PIECE TYPE!!!", pieceType);
 
-      //Add the current pieces index to the potential moves
-      currentPieceTypeMoves.forEach( (element2, index) => {
-    
-        //Only add moves that are < 64 (64 squares on the board)
-        if ((element2 + element.currentBoardIndex >= 0) && (element2 + element.currentBoardIndex < 64)) {
-          currentPieceTypeMoves[index] = element2 + element.currentBoardIndex;
-          element.potentialMoves.push(currentPieceTypeMoves[index])
-        }
-      })
-    }
+
+        initialPiecesState[element.id].potentialMoves = potentialMovesObject[pieceType](initialPiecesState[element.id].currentBoardIndex);
+
+
+        // element.potentialMoves.push(currentPieceTypeMoves[index])
+
+
+
+        // //Get the potential moves (offset from current index) for that piece type
+        // const currentPieceTypeMoves = [...potentialMovesObject[pieceType]];
+
+        // //Add the current pieces index to the potential moves
+        // currentPieceTypeMoves.forEach( (element2, index) => {
+      
+        //   //Only add moves that are < 64 (64 squares on the board)
+        //   if ((element2 + element.currentBoardIndex >= 0) && (element2 + element.currentBoardIndex < 64)) {
+        //     currentPieceTypeMoves[index] = element2 + element.currentBoardIndex;
+        //     element.potentialMoves.push(currentPieceTypeMoves[index])
+        //   }
+        // })
+      }
+    })
   });
 
-  console.log(initialPiecesState);
+  console.log("initialPiecesState, post update......",initialPiecesState);
 
   /////---------- use setBoard with FEN notation -------------/////
   const [board, setBoard] = useState(initialBoardState);
