@@ -73,21 +73,67 @@ export default function ChessBoard() {
     return moves;
   }
 
-  console.log("QUEEN MOVES WHITE QUEEN:", queenMoves([7,3]));
+  //Function to set the current bishops moves
+  const rookMoves = (currentPosition) => {
 
+    //Array to store all moves for the current piece
+    let moves = [];
+
+    for (let row = 1; row < 8; row++) {
+      //Vertical moves
+      currentPosition[0] + row < 8 && moves.push([currentPosition[0] + row, currentPosition[1]]);
+      currentPosition[0] - row > -1 && moves.push([currentPosition[0] - row, currentPosition[1]]);
+
+      //Horizontal moves (row is not a good variable name as it's used for vertical and horizontal movement...)
+      currentPosition[1] + row < 8 && moves.push([currentPosition[0], currentPosition[1] + row]);
+      currentPosition[1] - row > -1 && moves.push([currentPosition[0], currentPosition[1] - row]);
+    }
+    return moves;
+  }
+
+  //Function to set the current bishops moves
+  const bishopMoves = (currentPosition) => {
+
+    //Array to store all moves for the current piece
+    let moves = [];
+
+    //REFACTOR TO USE ONLY ONE FOR LOOP
+    for (let row = 1; row < 8; row++) {
+      for (let column = 1; column < 8; column++) {
+        //Diagonals
+        if (row === column) {
+          //Diagonals (bishop<)
+          if (currentPosition[0] + row < 8 && currentPosition[1] + column < 8) {
+            moves.push([currentPosition[0] + row, currentPosition[1] + column]);
+          }
+          if (currentPosition[0] - row > -1 && currentPosition[1] + column < 8) {
+            moves.push([currentPosition[0] - row, currentPosition[1] + column]);
+          }
+          //Diagonals (>bishop)
+          if (currentPosition[0] + row < 8 && currentPosition[1] - column > -1) {
+            moves.push([currentPosition[0] + row, currentPosition[1] - column]);
+          }
+          if (currentPosition[0] - row > -1 && currentPosition[1] - column > -1) {
+            moves.push([currentPosition[0] - row, currentPosition[1] - column]);
+          }
+        }
+      }
+    }
+    return moves;
+  }
 
    //Function called for whichever piece type it is
-   const potentialMovesObject = {
+  const potentialMovesObject = {
     k: queenMoves,
     q: queenMoves,
-    r: queenMoves,
-    b: queenMoves,
+    r: rookMoves,
+    b: bishopMoves,
     n: queenMoves,
     wp: queenMoves,
     bp: queenMoves
   }
 
-  //Information for each piece on the board (currentBoardIndex updated below)
+  //Information for each piece on the board (currentBoardIndex and potentialMoves updated below)
   const initialPiecesState = {
     wk1: {id: "wk1", image: "♔", currentBoardIndex: 0, potentialMoves: []}, 
     wq1: {id: "wq1", image: "♕", currentBoardIndex: 0, potentialMoves: []}, 
@@ -192,7 +238,6 @@ export default function ChessBoard() {
         //Set the currentBoardIndex for that piece (row, column)
         initialPiecesState[element.id].currentBoardIndex = [rowIndex, elementIndex];
 
-
         //Rest of code in if statement to set the potential moves array for that piece
         let pieceType = "";
 
@@ -203,9 +248,9 @@ export default function ChessBoard() {
           pieceType = element.id.slice(0,2);
         };
 
-        console.log("PIECE TYPE!!!", pieceType);
+        // console.log("PIECE TYPE!!!", pieceType);
 
-
+        //Set the potential moves for that piece based on piece type
         initialPiecesState[element.id].potentialMoves = potentialMovesObject[pieceType](initialPiecesState[element.id].currentBoardIndex);
 
 
