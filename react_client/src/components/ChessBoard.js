@@ -165,7 +165,25 @@ export default function ChessBoard() {
     }
     return moves;
   }
+  
+  //Workin' on our night moves (Bob Seger...lol)
+  const knightMoves = (currentPosition) => {
 
+    let moves = [];
+
+    currentPosition[0] + 1 < 8 && currentPosition[1] - 2 > -1 && moves.push([currentPosition[0] + 1, currentPosition[1] - 2]);
+    currentPosition[0] + 1 < 8 && currentPosition[1] + 2 < 8 && moves.push([currentPosition[0] + 1, currentPosition[1] + 2]);
+    currentPosition[0] - 1 > -1 && currentPosition[1] - 2 > -1 && moves.push([currentPosition[0] - 1, currentPosition[1] - 2]);
+    currentPosition[0] - 1 > -1 && currentPosition[1] + 2 < 8 && moves.push([currentPosition[0] - 1, currentPosition[1] + 2]);
+
+    currentPosition[0] + 2 < 8 && currentPosition[1] - 1 > -1 && moves.push([currentPosition[0] + 2, currentPosition[1] - 1]);
+    currentPosition[0] + 2 < 8 && currentPosition[1] + 1 < 8 && moves.push([currentPosition[0] + 2, currentPosition[1] + 1]);
+    currentPosition[0] - 2 > -1 && currentPosition[1] - 1 > -1 && moves.push([currentPosition[0] - 2, currentPosition[1] - 1]);
+    currentPosition[0] - 2 > -1 && currentPosition[1] + 1 < 8 && moves.push([currentPosition[0] - 2, currentPosition[1] + 1]);
+
+    return moves;
+
+  }
 
 
 
@@ -176,7 +194,7 @@ export default function ChessBoard() {
     q: queenMoves,
     r: rookMoves,
     b: bishopMoves,
-    n: queenMoves,
+    n: knightMoves,
     wp: pawnMoves,
     bp: pawnMoves
   }
