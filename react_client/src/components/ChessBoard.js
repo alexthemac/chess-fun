@@ -155,16 +155,15 @@ export default function ChessBoard() {
   const pawnMoves = (currentPosition, color) => {
 
     let moves = [];
-
-    currentPosition[0] + 1 < 8 && moves.push([currentPosition[0] + 1, currentPosition[1]]);
-
-
-
-    
-
-
+    //Need to specify color for pawns because they can only move in one direction, unlike other pieces. 
+    if (color === "b") {
+      currentPosition[0] === 1 && moves.push([currentPosition[0] + 2, currentPosition[1]]);
+      currentPosition[0] + 1 < 8 && moves.push([currentPosition[0] + 1, currentPosition[1]]);
+    } else {
+      currentPosition[0] === 6 && moves.push([currentPosition[0] - 2, currentPosition[1]]);
+      currentPosition[0] - 1 > -1 && moves.push([currentPosition[0] - 1, currentPosition[1]]);
+    }
     return moves;
-
   }
 
 
@@ -287,38 +286,15 @@ export default function ChessBoard() {
         //Set the currentBoardIndex for that piece (row, column)
         initialPiecesState[element.id].currentBoardIndex = [rowIndex, elementIndex];
 
-        //Rest of code in if statement to set the potential moves array for that piece
-        let pieceType = "";
+        //First letter of element.id defines piece color (w = white, b = black)
+        // Second letter of element.id defines piece type (eg p = pawn, r = rook). 
+        const color = element.id[0];
+        const pieceType = element.id[1] !== 'p' ? element.id.slice(1,2) : element.id.slice(0,2);
 
-        //Grab the first letter of all pieces except pawns (pawns have specific moves (can only move forward) depending on color)
-        if(element.id[1] !== 'p') {
-          pieceType = element.id.slice(1,2);
-        } else {
-          pieceType = element.id.slice(0,2);
-        };
+        console.log("ELEMENT.ID", element.id, "color", color);
 
-        // console.log("PIECE TYPE!!!", pieceType);
-
-        //Set the potential moves for that piece based on piece type
-        initialPiecesState[element.id].potentialMoves = potentialMovesObject[pieceType](initialPiecesState[element.id].currentBoardIndex);
-
-
-        // element.potentialMoves.push(currentPieceTypeMoves[index])
-
-
-
-        // //Get the potential moves (offset from current index) for that piece type
-        // const currentPieceTypeMoves = [...potentialMovesObject[pieceType]];
-
-        // //Add the current pieces index to the potential moves
-        // currentPieceTypeMoves.forEach( (element2, index) => {
-      
-        //   //Only add moves that are < 64 (64 squares on the board)
-        //   if ((element2 + element.currentBoardIndex >= 0) && (element2 + element.currentBoardIndex < 64)) {
-        //     currentPieceTypeMoves[index] = element2 + element.currentBoardIndex;
-        //     element.potentialMoves.push(currentPieceTypeMoves[index])
-        //   }
-        // })
+        //Set the potential moves for that piece based on piece type (color only useful for pawns)
+        initialPiecesState[element.id].potentialMoves = potentialMovesObject[pieceType](initialPiecesState[element.id].currentBoardIndex, color);
       }
     })
   });
@@ -465,7 +441,7 @@ export default function ChessBoard() {
     displayedBoard.push(displayedRow);
   })
 
-  console.log("CHESS SQUARES!!!", displayedBoard);
+  // console.log("CHESS SQUARES!!!", displayedBoard);
 
   return (
     <div className="chessboard">
