@@ -309,15 +309,13 @@ export default function ChessBoard() {
         const color = element.id[0];
         const pieceType = element.id[1] !== 'p' ? element.id.slice(1,2) : element.id.slice(0,2);
 
-        console.log("ELEMENT.ID", element.id, "color", color);
-
         //Set the potential moves for that piece based on piece type (color only useful for pawns)
         initialPiecesState[element.id].potentialMoves = potentialMovesObject[pieceType](initialPiecesState[element.id].currentBoardIndex, color);
       }
     })
   });
 
-  console.log("initialPiecesState, post update......",initialPiecesState);
+  // console.log("initialPiecesState, post update......",initialPiecesState);
 
   /////---------- use setBoard with FEN notation -------------/////
   const [board, setBoard] = useState(initialBoardState);
@@ -339,8 +337,6 @@ export default function ChessBoard() {
 
     //Grab the current piece and store it in currentPiece state
     setCurrentPiece(pieces[e.target.id]);
-
-    //If id is in move array, set color to gold.
 
     console.log("!!!!POTENTIAL MOEVS!!!!!", pieces[e.target.id].potentialMoves);
     
@@ -369,9 +365,12 @@ export default function ChessBoard() {
     // e.stopPropagation();
     // e.preventDefault();
 
+    const stringCurrentSquareIndex = e.target.id;
+    const intArrayCurrentSquareIndex = [parseInt(stringCurrentSquareIndex[0]), parseInt(stringCurrentSquareIndex[2])];
+
     //Create an array that stores all the squares that have been hovered over by the piece
     const newMoveSquares = [...moveSquares]
-    newMoveSquares.push(e.target.id);
+    newMoveSquares.push(intArrayCurrentSquareIndex);
     setMoveSquares(newMoveSquares);
 
   }
@@ -388,22 +387,28 @@ export default function ChessBoard() {
     e.stopPropagation();
     e.preventDefault();
 
-    //Grab index of square that the piece is dropped on
-    const squareIndex = e.target.id;
+
+    //Square that the piece was grabbed from
+    const startPositionArray = moveSquares[1];
+    const startPositionRow = startPositionArray[0];
+    const startPositionColumn = startPositionArray[1];
+    
+    //Square that the piece is dropped on
+    const stringDroppedSquareIndex = e.target.id;
+    const droppedPositionRow = parseInt(stringDroppedSquareIndex[0]);
+    const droppedPositionColumn = parseInt(stringDroppedSquareIndex[2]);
 
     //Spread current board state
     let newStateArray = [...board];
 
     //Update board state with location of new piece
-    newStateArray[squareIndex] = currentPiece;
-    newStateArray[moveSquares[1]] = "";
+    newStateArray[droppedPositionRow][droppedPositionColumn] = currentPiece;
+    newStateArray[startPositionRow][startPositionColumn] = "";
     setBoard(newStateArray);
 
     //Reset the move array state after board has been updated
     setMoveSquares([]);
-
-    
-
+  
   }
 
   // let inMoveArray = true;
